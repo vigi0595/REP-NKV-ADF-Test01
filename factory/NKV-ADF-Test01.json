@@ -1,0 +1,9 @@
+{
+	"name": "NKV-ADF-Test01",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4add597c-b1e7-496f-ac01-1260966c65e5",
+		"tenantId": "28831fa1-78ab-471f-a349-4a8948ee4092"
+	}
+}

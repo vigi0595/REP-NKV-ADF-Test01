@@ -1,0 +1,94 @@
+{
+	"name": "PL_ErrorMail",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": false,
+							"wildcardFolderPath": "input",
+							"wildcardFileName": "testFile.csv",
+							"deleteFilesAfterCompletion": false
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_Blob_BinaryFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"path": "input"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Blob_BinaryFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"path": "output"
+						}
+					}
+				]
+			},
+			{
+				"name": "ErrorMailNotification",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-11.southindia.logic.azure.com:443/workflows/f8416661066845a2bb5947315bab2b6d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m9NaTezRhfFNKLsFEipydmtPmnjwYNIEkudleLIY0JA",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": {
+						"value": "{\n    \"Pipe Line\" : \"@{pipeline().Pipeline}\",\n    \"DataFactory\" : \"@{pipeline().DataFactory}\",\n    \"Run ID\" : \"@{pipeline().RunId}\",\n    \"Error Message\" : \"@{activity('Copy data1').Error.Message}\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-02-06T11:55:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,27 @@
+{
+	"name": "DS_Blob_BinaryFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blobStorage_01",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"path": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().path",
+					"type": "Expression"
+				},
+				"container": "blob-nkv-main-folder"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
