@@ -60,9 +60,9 @@
 				"type": "WebActivity",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Wait1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -84,6 +84,22 @@
 						"value": "{\n    \"Pipe Line\" : \"@{pipeline().Pipeline}\",\n    \"DataFactory\" : \"@{pipeline().DataFactory}\",\n    \"Run ID\" : \"@{pipeline().RunId}\",\n    \"Error Message\" : \"@{activity('Copy data1').Error.Message}\"\n}",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 3
 				}
 			}
 		],
