@@ -1,0 +1,45 @@
+{
+	"name": "DS_Blob_CSVFile_Student",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blobStorage_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "StudentDetails.csv",
+				"folderPath": "input",
+				"container": "blob-nkv-main-folder"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "sid",
+				"type": "String"
+			},
+			{
+				"name": "sname",
+				"type": "String"
+			},
+			{
+				"name": "age",
+				"type": "String"
+			},
+			{
+				"name": "did",
+				"type": "String"
+			},
+			{
+				"name": "sloc",
+				"type": "String"
+			}
+		]
+	}
+}
